@@ -3,16 +3,17 @@ import './Post.css'
 
 import {Avatar} from '@material-ui/core'
 
-const Post = () => {
+const Post = ({ username, caption, imageUrl }) => {
+    console.log(username);
     return (
         <div className='post'>
             <div className="post__header">
-                <Avatar
+                <Avatar 
                     className='post__avatar'
-                    alt='ZubairOmer'
+                    alt={username}
                     src='/static/iamges/avatar/1.png'
                 />
-                <h3>Username</h3>
+                <h3>{username}</h3>
             </div>
 
             <img
@@ -22,7 +23,7 @@ const Post = () => {
             />
 
             <h4
-                className='post__text'><strong>zubairomer</strong> : Gonna shok all once i started
+                className='post__text'><strong>{username}</strong> :{caption}
             </h4>
         </div>
     )
