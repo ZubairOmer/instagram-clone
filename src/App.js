@@ -1,26 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './App.css'
 
 import Post from './Post'
+import {db} from './firebase'
 
 const App = () => {
-    const [posts, setPosts] = useState([
-        {
-            username : 'Zubair Omer',
-            caption : 'i am gonna shok all once i start',
-            imageUrl : ''
-        },
-        {
-            username : 'Emra Omer',
-            caption : 'I wil Love my father as he love me',
-            imageUrl : ''
-        },
-        {
-            username : 'Jahan Omer',
-            caption : 'I wil Love my father as he love me',
-            imageUrl : ''
-        },
-    ])
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        db.collection('posts').onSnapshot(snapshot => {
+            setPosts(snapshot.docs.map(doc => doc.data()))
+        })
+    })
 
     return (
         <div className='app'>
