@@ -1,6 +1,8 @@
 import React from 'react'
 import './App.css'
 
+import Post from './Post'
+
 const App = () => {
     return (
         <div className='app'>
@@ -12,6 +14,8 @@ const App = () => {
                 alt="insta logo"
               /> }
             </div>
+
+            <Post />
         </div>
     )
 }
