@@ -9,12 +9,21 @@ const App = () => {
 
     useEffect(() => {
         db.collection('posts').onSnapshot(snapshot => {
-            setPosts(snapshot.docs.map(doc => doc.data()))
+            setPosts(snapshot.docs.map(doc => ({ id : doc.id , post: doc.data() })))
         })
     })
 
     return (
         <div className='app'>
+            <Modal
+                open={open}
+                onClose={handleClose}
+            >
+                <div style={modalStyle}>
+                    <h2>I am a modal</h2>
+                </div>
+            </Modal>
+            
             <div className="app__header">
                 {<img 
                 className="app__headerImage"
@@ -25,8 +34,9 @@ const App = () => {
             </div>
 
             {
-                posts.map(post => (
+                posts.map(({ id, post }) => (
                     <Post
+                        key={id}
                         username={post.username}
                         caption={post.caption}
                         imageUrl={post.imageUrl}
