@@ -6,6 +6,8 @@ import { db } from './firebase'
 import Modal from '@material-ui/core/Modal'
 import {makeStyles} from '@material-ui/core/styles'
 import { Button, Input } from '@material-ui/core'
+import { auth } from './firebase'
+import ImageUpload from './ImageUpload'
 
 function getModalStyle(){
     const top = 50 
@@ -39,6 +41,27 @@ const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
+    const [user, setUser] = useState(null)
+    const [openSignIn, setOpenSignIn] = useState(false)
+
+    // any thime we use state var inside useEffect we should also use it as dependecy 
+    useEffect(() => {
+        const unsbscribe = auth.onAuthStateChanged(authUser => {
+            if (authUser) {
+                // if logged 
+                console.log(authUser)
+                setUser(authUser)
+            }
+            else{
+                //if logged out
+                setUser(null)
+            }
+        })
+
+        return () => { // component will unmont
+            unsbscribe()
+        }
+    }, [user, username])
 
     useEffect(() => {
         db.collection('posts').onSnapshot(snapshot => {
@@ -48,58 +71,67 @@ const App = () => {
 
     const signUp = event => {
         event.preventDefault()
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(authUser => {
+                return authUser.user.updateProfile({
+                    displayName : username
+                })
+            })
+            .catch(error => alert(error.message))
+        setOpen(false)
+    }
+
+    const signIn = event => {
+        event.preventDefault()
+
+        auth.signInWithEmailAndPassword(email, password)
+            .catch(error => alert(error.message))
         
+        setOpenSignIn(false)
     }
 
     return (
         <div className='app'>
-            <Modal
-                open={open}
-                onClose={() => setOpen(false)}
-            >
+            <ImageUpload />
+
+            <Modal open={open} onClose={() => setOpen(false)} >
                 <div style={modalStyle} className={classes.paper}>
                     <form  className="app__signup">
                         <center>
-                             <img 
-                                className="app__headerImage"
-                                height="40px;"
-                                src="https://toogreen.ca/instagreen/img/instagreen.svg"
-                                alt="insta logo"
-                            />
+                             <img  className="app__headerImage" height="40px;" src="https://toogreen.ca/instagreen/img/instagreen.svg" alt="insta logo"/>
                          </center>
-
-                        <Input
-                            placeholder='username'
-                            type='text'
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
-                        />
-                        <Input
-                            placeholder='email'
-                            type='text'
-                            value={email}
-                            onChange={e => setEmail( e.target.value)}
-                        />
-                        <Input
-                            placeholder='password'
-                            type='password'
-                            value={password}
-                            onChange={e => setPassword( e.target.value)}
-                        />
+                        <Input placeholder='username' type='text' value={username} onChange={e => setUsername(e.target.value)}/>
+                        <Input placeholder='email' type='text' value={email} onChange={e => setEmail( e.target.value)} />
+                        <Input placeholder='password' type='password' value={password} onChange={e => setPassword( e.target.value)} />
                         <Button type='submit' onClick={signUp}>Sign Up</Button>
                    </form>
                 </div>
             </Modal>
 
+            <Modal open={openSignIn} onClose={() => setOpenSignIn(false)} >
+                <div style={modalStyle} className={classes.paper}>
+                    <form  className="app__signup">
+                        <center>
+                             <img  className="app__headerImage" height="40px;" src="https://toogreen.ca/instagreen/img/instagreen.svg" alt="insta logo"/>
+                         </center>                    
+                        <Input placeholder='email' type='text' value={email} onChange={e => setEmail( e.target.value)} />
+                        <Input placeholder='password' type='password' value={password} onChange={e => setPassword( e.target.value)} />
+                        <Button type='submit' onClick={signIn}>Sign In</Button>
+                   </form>
+                </div>
+            </Modal>
+
             <div className="app__header">
-                <img 
-                className="app__headerImage"
-                height="40px;"
-                src="https://toogreen.ca/instagreen/img/instagreen.svg"
-                alt="insta logo"
-              /> 
+                <img  className="app__headerImage" height="40px;" src="https://toogreen.ca/instagreen/img/instagreen.svg" alt="insta logo" /> 
             </div>
-            <Button onClick={() => setOpen(true)}>Sign Up</Button>
+            {user ? (
+                <Button onClick={() => auth.signOut()}>Logout</Button>
+            ) : (
+                    <div className="app__loginContainer">
+                          <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+                          <Button onClick={() => setOpen(true)}>Sign Up</Button>
+                    </div>
+            )}
 
             {
                 posts.map(({ id, post }) => (
