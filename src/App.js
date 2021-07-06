@@ -8,6 +8,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import { Button, Input } from '@material-ui/core'
 import { auth } from './firebase'
 import ImageUpload from './ImageUpload'
+import InstagramEmbed from 'react-instagram-embed'
 
 function getModalStyle(){
     const top = 50 
@@ -120,9 +121,8 @@ const App = () => {
             </Modal>
 
             <div className="app__header">
-                <img  className="app__headerImage" height="40px;" src="https://toogreen.ca/instagreen/img/instagreen.svg" alt="insta logo" /> 
-            </div>
-            {user ? (
+                <img className="app__headerImage" height="40px;" src="https://toogreen.ca/instagreen/img/instagreen.svg" alt="insta logo" />
+                {user ? (
                 <Button onClick={() => auth.signOut()}>Logout</Button>
             ) : (
                     <div className="app__loginContainer">
@@ -131,7 +131,11 @@ const App = () => {
                     </div>
             )}
 
-            {
+            </div>
+            
+            <div className='app__post'>
+                <div className="app__postLeft">
+                     {
                 posts.map(({ id, post }) => (
                     <Post
                         key={id}
@@ -140,7 +144,24 @@ const App = () => {
                         imageUrl={post.imageUrl}
                     />
                 ))
-            }
+                }
+                </div>
+                <div className="app__posrRight">
+                     <InstagramEmbed
+                url='https"//instagr.m/p/Zw9o4/'
+                maxWidth={320}
+                hideCaption={false}
+                containerTagName='div'
+                protocol=''
+                injectScript
+                onLoading={() => { }}
+                onSuccess={() => { }}
+                onAfterRender={() => { }}
+                onFailure={() => { }}
+            />
+               </div>
+            </div>
+            
 
              {user?.displayName ? (
                 <ImageUpload username = {user.displayName} />

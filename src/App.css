@@ -11,6 +11,12 @@
   background-color: white;
   object-fit: contain;
   border-bottom: 1px solid lightgray;
+  display: flex;
+  justify-content: space-between;
+}
+
+.app__headerImage {
+  object-fit: contain;
 }
 
 .app__signup {
