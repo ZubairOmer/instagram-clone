@@ -49,8 +49,7 @@ const App = () => {
     useEffect(() => {
         const unsbscribe = auth.onAuthStateChanged(authUser => {
             if (authUser) {
-                // if logged 
-                console.log(authUser)
+                // if logged               
                 setUser(authUser)
             }
             else{
@@ -146,18 +145,18 @@ const App = () => {
                 ))
                 }
                 </div>
-                <div className="app__posrRight">
+                <div className="app__postRight">
                      <InstagramEmbed
-                url='https"//instagr.m/p/Zw9o4/'
-                maxWidth={320}
-                hideCaption={false}
-                containerTagName='div'
-                protocol=''
-                injectScript
-                onLoading={() => { }}
-                onSuccess={() => { }}
-                onAfterRender={() => { }}
-                onFailure={() => { }}
+                        url="https://www.instagram.com/p/B_uf9dmAGPw/"
+                        maxWidth={320}
+                        hideCaption={false}
+                        containerTagName="div"
+                        protocol=''
+                        injectScript
+                        onLoading={() => { }}
+                        onSuccess={() => { }}
+                        onAfterRender={() => { }}
+                        onFailure={() => { }}
             />
                </div>
             </div>
