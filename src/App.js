@@ -64,7 +64,7 @@ const App = () => {
     }, [user, username])
 
     useEffect(() => {
-        db.collection('posts').onSnapshot(snapshot => {
+        db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
             setPosts(snapshot.docs.map(doc => ({ id : doc.id , post: doc.data() })))
         })
     })
@@ -91,9 +91,7 @@ const App = () => {
     }
 
     return (
-        <div className='app'>
-            <ImageUpload />
-
+        <div className='app'>           
             <Modal open={open} onClose={() => setOpen(false)} >
                 <div style={modalStyle} className={classes.paper}>
                     <form  className="app__signup">
@@ -143,6 +141,13 @@ const App = () => {
                     />
                 ))
             }
+
+             {user?.displayName ? (
+                <ImageUpload username = {user.displayName} />
+            ) : (
+                    <h3>Loggin To Upload</h3>
+            )}
+
         </div>
     )
 }
