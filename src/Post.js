@@ -12,7 +12,7 @@ const Post = ({ username, caption, imageUrl, postId, user }) => {
     useEffect(() => {
         let unsubscribe;
         if (postId) {
-            unsubscribe = db.collection('posts').doc(postId).collection('comments').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+            unsubscribe = db.collection('posts').doc(postId).collection('comments').orderBy('timestamp', 'asc').onSnapshot(snapshot => {
                 setComments(snapshot.docs.map(doc => doc.data()))
             })
         }

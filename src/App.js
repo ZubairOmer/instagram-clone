@@ -166,12 +166,10 @@ const App = () => {
 
              {user?.displayName ? (
                 <ImageUpload username = {user.displayName} />
-            ) : (
-                    <>
-                        <h3 className='login'>Loggin To Upload Posts </h3>
-                        <p>Build by Zubair Omer</p>
-                     </>
+            ) : (                    
+                        <h3 className='login'>Loggin To Upload Posts </h3>            
             )}
+            <p className='footer'>Build by Zubair Omer</p>
 
         </div>
     )
