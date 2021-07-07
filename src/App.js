@@ -138,6 +138,7 @@ const App = () => {
                 posts.map(({ id, post }) => (
                     <Post
                         key={id}
+                        postId={id}
                         username={post.username}
                         caption={post.caption}
                         imageUrl={post.imageUrl}
