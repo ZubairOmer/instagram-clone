@@ -34,8 +34,16 @@
 
 .post__input {
   flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-top: 1px solid lightgray;
 }
 
 .post__button {
   flex: 0;
+  border-top: 1px solid lightgray;
+  border: none;
+  background-color: transparent;
+  color: #6082a3;
 }

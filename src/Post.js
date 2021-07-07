@@ -44,6 +44,14 @@ const Post = ({ username, caption, imageUrl, postId }) => {
 
             <h4 className='post__text'><strong>{username}</strong>: {caption} </h4>
 
+            <div className="post__comments">
+                {comments.map(comment => (
+                    <p>
+                        <strong>{ comment.username}</strong> {comment.text}
+                    </p>
+                ))}
+            </div>
+
             <form className='post__form'>
                 <input type="text" className='post__input'
                     placeholder='add a comment' value={comment} onChange={e => setComment(e.target.value)} />
