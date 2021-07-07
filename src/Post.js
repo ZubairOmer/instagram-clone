@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './Post.css'
 
 import { Avatar } from '@material-ui/core'
+import firebase from 'firebase'
 import {db} from './firebase'
 
 const Post = ({ username, caption, imageUrl, postId, user }) => {
@@ -25,8 +26,10 @@ const Post = ({ username, caption, imageUrl, postId, user }) => {
         event.preventDefault();
         db.collection('posts').doc(postId).collection('comments').add({
             text : comment,
-            username: user.displayName
+            username: user.displayName,
+            timestamp : firebase.firestore.FieldValue.serverTimestamp
         })
+        setComment('')
     }
 
     return (
