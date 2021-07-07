@@ -26,3 +26,16 @@
   font-weight: normal;
   padding: 20px;
 }
+
+.post__form {
+  display: flex;
+  margin-top: 10px;
+}
+
+.post__input {
+  flex: 1;
+}
+
+.post__button {
+  flex: 0;
+}

@@ -21,6 +21,10 @@ const Post = ({ username, caption, imageUrl, postId }) => {
         }
     }, [postId])
 
+    const postComment = event => {
+         
+    }
+
     return (
         <div className='post'>
             <div className="post__header">
@@ -40,9 +44,13 @@ const Post = ({ username, caption, imageUrl, postId }) => {
 
             <h4 className='post__text'><strong>{username}</strong>: {caption} </h4>
 
-            <form>
+            <form className='post__form'>
                 <input type="text" className='post__input'
                     placeholder='add a comment' value={comment} onChange={e => setComment(e.target.value)} />
+                
+                <button type='submit' disabled={!comment} className='post__comment' onClick={postComment}>
+                    Post
+                </button>
                 
             </form>
         </div>
