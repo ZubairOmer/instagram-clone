@@ -140,6 +140,7 @@ const App = () => {
                         key={id}
                         postId={id}
                         username={post.username}
+                        user={user}
                         caption={post.caption}
                         imageUrl={post.imageUrl}
                     />

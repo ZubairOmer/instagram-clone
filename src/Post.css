@@ -47,3 +47,7 @@
   background-color: transparent;
   color: #6082a3;
 }
+
+.post__comments {
+  padding: 20px;
+}

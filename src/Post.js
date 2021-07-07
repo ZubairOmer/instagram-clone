@@ -4,14 +4,14 @@ import './Post.css'
 import { Avatar } from '@material-ui/core'
 import {db} from './firebase'
 
-const Post = ({ username, caption, imageUrl, postId }) => {
-    const [comments, setComments] = useState('')
+const Post = ({ username, caption, imageUrl, postId, user }) => {
+    const [comments, setComments] = useState([])
     const [comment, setComment] = useState('')
 
     useEffect(() => {
         let unsubscribe;
         if (postId) {
-            unsubscribe = db.collection('posts').docs(postId).collection('commetns').OnSnapshot(snapshot => {
+            unsubscribe = db.collection('posts').doc(postId).collection('comments').onSnapshot(snapshot => {
                 setComments(snapshot.docs.map(doc => doc.data()))
             })
         }
@@ -22,7 +22,11 @@ const Post = ({ username, caption, imageUrl, postId }) => {
     }, [postId])
 
     const postComment = event => {
-         
+        event.preventDefault();
+        db.collection('posts').doc(postId).collection('comments').add({
+            text : comment,
+            username: user.displayName
+        })
     }
 
     return (
@@ -58,8 +62,7 @@ const Post = ({ username, caption, imageUrl, postId }) => {
                 
                 <button type='submit' disabled={!comment} className='post__comment' onClick={postComment}>
                     Post
-                </button>
-                
+                </button>                
             </form>
         </div>
     )
