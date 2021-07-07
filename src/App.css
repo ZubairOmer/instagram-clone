@@ -23,6 +23,9 @@
   border-bottom: 1px solid lightgray;
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .app__headerImage {
@@ -32,4 +35,9 @@
 .app__signup {
   display: flex;
   flex-direction: column;
+}
+
+.login {
+  padding: 10px;
+  text-align: center;
 }

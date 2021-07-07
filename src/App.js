@@ -167,7 +167,10 @@ const App = () => {
              {user?.displayName ? (
                 <ImageUpload username = {user.displayName} />
             ) : (
-                    <h3>Loggin To Upload</h3>
+                    <>
+                        <h3 className='login'>Loggin To Upload Posts </h3>
+                        <p>Build by Zubair Omer</p>
+                     </>
             )}
 
         </div>

@@ -12,7 +12,7 @@ const Post = ({ username, caption, imageUrl, postId, user }) => {
     useEffect(() => {
         let unsubscribe;
         if (postId) {
-            unsubscribe = db.collection('posts').doc(postId).collection('comments').onSnapshot(snapshot => {
+            unsubscribe = db.collection('posts').doc(postId).collection('comments').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
                 setComments(snapshot.docs.map(doc => doc.data()))
             })
         }
@@ -27,7 +27,7 @@ const Post = ({ username, caption, imageUrl, postId, user }) => {
         db.collection('posts').doc(postId).collection('comments').add({
             text : comment,
             username: user.displayName,
-            timestamp : firebase.firestore.FieldValue.serverTimestamp
+            timestamp : firebase.firestore.FieldValue.serverTimestamp()
         })
         setComment('')
     }
@@ -59,7 +59,8 @@ const Post = ({ username, caption, imageUrl, postId, user }) => {
                 ))}
             </div>
 
-            <form className='post__form'>
+            {user && 
+                <form className='post__form'>
                 <input type="text" className='post__input'
                     placeholder='add a comment' value={comment} onChange={e => setComment(e.target.value)} />
                 
@@ -67,6 +68,7 @@ const Post = ({ username, caption, imageUrl, postId, user }) => {
                     Post
                 </button>                
             </form>
+            }
         </div>
     )
 }
